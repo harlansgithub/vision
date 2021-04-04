@@ -20,7 +20,7 @@ export default {
       chartInstane: null,
       allData: null, // 从服务器中获取的所有数据
       showChoice: false, // 是否显示可选项
-      choiceType: 'map', // 显示的数据类型
+      choiceType: 'synEsService', // 显示的数据类型
       titleFontSize: 0 // 指明标题的字体大小
     }
   },
@@ -98,6 +98,9 @@ export default {
       // await this.$http.get()
       // 对allData进行赋值
       const { data: ret } = await this.$http.get('trend')
+      var tm = ret.common.time.shift()
+      console.log('tm:' + tm)
+      console.log('dt:' + ret.synEsService.data[0].data.shift())
       this.allData = ret
       console.log(this.allData)
       this.updateChart()
@@ -126,7 +129,7 @@ export default {
       ]
       // 处理数据
       // 类目轴的数据
-      const timeArr = this.allData.common.month
+      const timeArr = this.allData.common.time
       // y轴的数据 series下的数据
       const valueArr = this.allData[this.choiceType].data
       const seriesArr = valueArr.map((item, index) => {
